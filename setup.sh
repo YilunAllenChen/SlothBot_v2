@@ -1,6 +1,8 @@
+# Run this script on ths SlothBot machines to install necessary software.
+
 
 # setup git repo watcher CICD Pipeline
-sudo git config --global credential.helper stor
+sudo git config --global credential.helper store
 sudo git pull
 
 # configure git hooks
@@ -23,5 +25,5 @@ curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.
 
 
 # Setup main lifecycle script
-grep -qxF 'cd ~/slothbot_v3/bin_RPi/ && mkdir -p logs && touch logs/rpi.log && sudo python3 main.py > logs/rpi.log &' ~/.bashrc || echo 'cd ~/slothbot_v3/bin_RPi/ && mkdir -p logs && touch logs/rpi.log && sudo python3 main.py > logs/rpi.log &' >> ~/.bashrc
+grep -qxF 'cd ~/slothbot_v3/bin_RPi/ && mkdir -p logs && touch logs/rpi.log && sudo python3 main.py > logs/rpi.log &' /etc/rc.local || echo 'cd ~/slothbot_v3/bin_RPi/ && mkdir -p logs && touch logs/rpi.log && sudo python3 main.py > logs/rpi.log &' >> /etc/rc.local
 
