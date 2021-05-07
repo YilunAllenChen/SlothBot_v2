@@ -14,6 +14,11 @@ import person from "./media/person.png";
 function Team() {
   let people_info = [
     {
+      name: "Dr. Magnus Egerstedt",
+      desc: "Advisor",
+      portrait: person,
+    },
+    {
       name: "Allen Chen",
       desc: "Bruh.",
       portrait: person,
