@@ -23,6 +23,7 @@
 
 #define SEALEVELPRESSURE_HPA (1013.25)
 #define LED 13
+#define EN_SENSOR 5
 
 Adafruit_BME680 bme; // I2C
 Adafruit_SGP30 sgp;
@@ -147,6 +148,9 @@ void blink_for_a_second() {
 
 void setup() {
   pinMode(LED, OUTPUT);
+  pinMode(EN_SENSOR, OUTPUT);
+  digitalWrite(EN_SENSOR, HIGH);
+  
   Serial.begin(9600);
   delay(100);
 
