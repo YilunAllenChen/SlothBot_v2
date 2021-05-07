@@ -13,7 +13,7 @@
 #include "env_sensors.h"
 
 #define SEALEVELPRESSURE_HPA (1013.25)
-#define EN_SENSORS 3
+#define EN_SENSORS 5
 
 Adafruit_BME680 bme; // I2C
 Adafruit_SGP30 sgp;

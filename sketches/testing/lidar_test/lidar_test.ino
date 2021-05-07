@@ -16,9 +16,12 @@
 #include <TFMPlus.h>  // Include TFMini Plus Library v1.4.1
 TFMPlus lidar1;         // Create a TFMini Plus object
 TFMPlus lidar2;
+#define EN_LIDAR 6
                                     
 void setup()
 {
+    pinMode(EN_LIDAR, OUTPUT);
+    digitalWrite(EN_LIDAR, HIGH);
     Serial.begin( 115200);   // Intialize terminal serial port
     delay(20);               // Give port time to initalize
 
