@@ -1,15 +1,3 @@
-/**
- * @Allen Chen
- * Setup for this test:
- * 2. Connect the pins of the motors to the main board in the following manner:
- *    - Align the red, black, green, blue with the four pins to the motor driver
- *    - Align the yellow and white with the two other pins.
- *          Or use this page for hookup guide: https://coda.io/d/Slothbot-2-0_dmZr7LGX7ac/Hookup-Guide_suqCY#_lubMy
- * 3. run the script.
- */
-
-
-
 #include "motors.h"
 
 

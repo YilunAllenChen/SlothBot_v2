@@ -1,3 +1,15 @@
+/**
+ * @Allen Chen
+ * Setup for this test:
+ * 1. Include all sensor libraries (Tools -> Manage Libraries -> Type in names of sensor libraries
+ * 2. Connect the pins on BME680 to Teensy in the following manner:
+ *    - VIN (on BME680) to 5V (Teensy)
+ *    - GND o GND
+ *    - SDI/SDA to Pin18 (I2C0 SDA)
+ *    - SCK/SCL to Pin19 (I2C0 SCL)
+ * 3. run the script.
+ */
+
 #pragma once
 
 #include <Arduino.h>

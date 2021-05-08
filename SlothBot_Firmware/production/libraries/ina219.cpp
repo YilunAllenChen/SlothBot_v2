@@ -1,12 +1,3 @@
-/**
- * @Allen Chen
- * Setup for this test:
- * 1. Include all sensor libraries (Tools -> Manage Libraries -> Type in names of sensor libraries
- * 2. run the script.
- */
-
-
-
 #include "ina219.h"
 
 
