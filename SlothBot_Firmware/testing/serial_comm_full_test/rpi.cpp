@@ -4,6 +4,7 @@
 
 void rpi_setup(){
   pinMode(EN_RPI, OUTPUT);
+  digitalWrite(EN_RPI, HIGH);
 }
 
 void rpi_enable(){
