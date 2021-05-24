@@ -1,8 +1,5 @@
 import RPi.GPIO as GPIO
 import time
-
-
-
 import pathlib
 import logging
 pathlib.Path("./logs").mkdir(parents=True, exist_ok=True)
