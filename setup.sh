@@ -25,8 +25,4 @@ curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.
 
 
 # Setup main lifecycle script
-chmod 755 slothbot_system.sh 
-cp slothbot_system.sh /etc/init.d/slothbot_system.sh
-cd /etc/init.d/
-sudo update-rc.d slothbot_system.sh defaults
-
+sudo cp config/rc.local /etc/rc.local
