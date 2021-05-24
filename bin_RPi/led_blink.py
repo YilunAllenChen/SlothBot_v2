@@ -12,18 +12,12 @@ logger.addHandler(f_handler)
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(23,GPIO.OUT)
-GPIO.setup(24,GPIO.OUT)
-GPIO.setup(25,GPIO.OUT)
 
 
 while True: 
     logger.info("LED on")
     GPIO.output(23,GPIO.HIGH)
-#    GPIO.output(24,GPIO.HIGH)
-#    GPIO.output(25,GPIO.HIGH)
     time.sleep(1)
     logger.info("LED off")
     GPIO.output(23,GPIO.LOW)
-#    GPIO.output(24,GPIO.LOW)
-#    GPIO.output(25,GPIO.LOW)
     time.sleep(1)
