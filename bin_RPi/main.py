@@ -20,11 +20,11 @@ logger.addHandler(f_handler)
 GLOBAL_STATE = "RUNNING"
 async def main():
     global GLOBAL_STATE
-    logger.log("Starting tasks")
+    logger.info("Starting tasks")
     try:
         tasks = [
             asyncio.ensure_future(container("python3 led_blink.py", GLOBAL_STATE)),
-            asyncio.ensure_future(container("python3 serial_test.py", GLOBAL_STATE)),
+       #     asyncio.ensure_future(container("python3 serial_test.py", GLOBAL_STATE)),
             asyncio.ensure_future(watcher(GLOBAL_STATE)),
             asyncio.ensure_future(teensy_updater(GLOBAL_STATE))
         ]
