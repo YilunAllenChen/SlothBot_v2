@@ -14,6 +14,6 @@ async def watcher(GLOBAL_STATE):
             os.system("git pull")
             print("Repo updated.")
             GPIO.output(24,GPIO.LOW)
-            await asyncio.sleep(10)
+            await asyncio.sleep(20)
         except KeyboardInterrupt as k:
             GLOBAL_STATE = "TERMINATING"
