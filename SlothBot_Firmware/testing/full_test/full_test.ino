@@ -10,7 +10,7 @@
 void setup() {
   Serial.begin(115200);
   delay(1000);
-  Serial.println("SlothBot v3 Integrated Test Starting...");
+  Serial.println("SlothBot v2 Integrated Test Starting...");
 
   Serial.println("Initiating components...");
   motors_setup();
@@ -58,7 +58,7 @@ void loop() {
   Serial.print("Raw H2:      "); Serial.println(env_get_raw_h2(), 5);
   Serial.print("Raw Ethanol: "); Serial.println(env_get_raw_ethanol(), 5);
 
-  delay(5000);
+  delay(2000);
 
   
   Serial.println("Turning on motors... You should see the motors starting to move");
@@ -78,29 +78,6 @@ void loop() {
   Serial.print(power);
   Serial.println(" mW");
   delay(5000);
-
-
-  
-  Serial.println("Turning on RPi... You should see the RPi lighting up");
-  rpi_enable();
-  delay(100);
-  Serial.print("Power Stats: ");
-  power = ina219_get_power();
-  Serial.print(power);
-  Serial.println(" mW");
-  delay(5000);
-
-
-  
-  Serial.println("Turning off RPi... You should see the RPi going off");
-  rpi_disable();
-  delay(100);
-  Serial.print("Power Stats: ");
-  power = ina219_get_power();
-  Serial.print(power);
-  Serial.println(" mW");
-  delay(5000);
-
 
   
 }

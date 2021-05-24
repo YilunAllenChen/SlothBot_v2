@@ -25,5 +25,8 @@ curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.
 
 
 # Setup main lifecycle script
-grep -qxF 'cd /home/pi/SlothBot_v2.0/bin_RPi/ && mkdir -p logs && touch logs/rpi.log && sudo python3 main.py > logs/rpi.log &' /etc/rc.local || echo 'cd /home/pi/SlothBot_v2.0/bin_RPi/ && mkdir -p logs && touch logs/rpi.log && sudo python3 main.py > logs/rpi.log &' >> /etc/rc.local
+chmod 755 slothbot_system.sh 
+cp slothbot_system.sh /etc/init.d/slothbot_system.sh
+cd /etc/init.d/
+sudo update-rc.d slothbot_system.sh defaults
 

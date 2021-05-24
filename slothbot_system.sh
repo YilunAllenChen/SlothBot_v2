@@ -1,0 +1,1 @@
+cd /home/pi/SlothBot_v2.0/bin_RPi/ && mkdir -p logs && touch logs/rpi.log && sudo python3 main.py > logs/rpi.log &
