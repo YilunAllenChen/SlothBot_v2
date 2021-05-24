@@ -3,6 +3,9 @@ import asyncio
 
 async def watcher(GLOBAL_STATE):
     while GLOBAL_STATE != "TERMINATING":
-        os.system("git pull")
-        print("Repo updated.")
-        await asyncio.sleep(3)
+        try:
+            os.system("git pull")
+            print("Repo updated.")
+            await asyncio.sleep(10)
+        except KeyboardInterrupt as k:
+            GLOBAL_STATE = "TERMINATING"

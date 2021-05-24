@@ -30,9 +30,12 @@ async def teensy_updater(GLOBAL_STATE):
     last_mtime = max(file_times(path))
     print("Autoreload Container Started")
     while GLOBAL_STATE != "TERMINATING":
-        max_mtime = max(file_times(path))
-        if max_mtime > last_mtime:
-            print("Updating Teensy Firmware...")
-            os.system("sudo ./teensy_loader_cli --mcu=mk20dx256 -s ../bin_teensy/main.hex")
-            last_mtime = max_mtime
-        await asyncio.sleep(5)
+        try:
+            max_mtime = max(file_times(path))
+            if max_mtime > last_mtime:
+                print("Updating Teensy Firmware...")
+                os.system("sudo ./teensy_loader_cli --mcu=mk20dx256 -s ../bin_teensy/main.hex")
+                last_mtime = max_mtime
+            await asyncio.sleep(5)
+        except KeyboardInterrupt as k:
+            GLOBAL_STATE = "TERMINATING"
