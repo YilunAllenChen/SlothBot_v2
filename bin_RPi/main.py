@@ -28,13 +28,14 @@ async def main():
             asyncio.ensure_future(watcher(GLOBAL_ASYNC_STATE)),
             asyncio.ensure_future(teensy_updater(GLOBAL_ASYNC_STATE))
         ]
-
-        result = await asyncio.gather(*tasks, return_exceptions=True)
     except Exception as e:
         logger.error(e)
     except KeyboardInterrupt as k:
         GLOBAL_ASYNC_STATE.running = False
-    result = await asyncio.gather(*tasks, return_exceptions=True)
+    
+    while(GLOBAL_ASYNC_STATE.running):
+        asyncio.sleep(1)
+    result = await asyncio.gather(*tasks, return_exceptions=False)
     exit()
 
 
