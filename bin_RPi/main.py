@@ -35,7 +35,7 @@ async def main():
     
     while(GLOBAL_ASYNC_STATE.running):
         try:
-            logger.info("Running")
+            print("Running")
             await asyncio.sleep(1)
         except KeyboardInterrupt as k:
             GLOBAL_ASYNC_STATE.running = False       
@@ -44,7 +44,6 @@ async def main():
 
 
     result = await asyncio.gather(*tasks, return_exceptions=False)
-    exit()
 
 
 if __name__ == "__main__":
