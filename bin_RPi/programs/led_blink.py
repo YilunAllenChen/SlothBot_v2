@@ -20,4 +20,4 @@ while True:
     time.sleep(0.3)
     logger.info("LED off")
     GPIO.output(23,GPIO.LOW)
-    time.sleep(0.3)
+    time.sleep(1)
