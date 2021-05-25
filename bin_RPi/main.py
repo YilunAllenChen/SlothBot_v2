@@ -20,7 +20,7 @@ logger.addHandler(f_handler)
 async def main():
     GLOBAL_ASYNC_STATE = type('', (), {})()
     GLOBAL_ASYNC_STATE.running = True
-    
+
     logger.info("Starting tasks")
     try:
         tasks = [
@@ -33,7 +33,7 @@ async def main():
     except Exception as e:
         logger.error(e)
     except KeyboardInterrupt as k:
-        GLOBAL_ASYNC_STATE = "TERMINATING"
+        GLOBAL_ASYNC_STATE.running = False
     result = await asyncio.gather(*tasks, return_exceptions=True)
     exit()
 
