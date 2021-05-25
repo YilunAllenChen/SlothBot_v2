@@ -6,8 +6,8 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(24,GPIO.OUT)
 
-async def watcher(GLOBAL_STATE):
-    while GLOBAL_STATE != "TERMINATING":
+async def watcher(GLOBAL_ASYNC_STATE):
+    while GLOBAL_ASYNC_STATE.running:
         try:
 
             GPIO.output(24,GPIO.HIGH)
@@ -16,4 +16,6 @@ async def watcher(GLOBAL_STATE):
             GPIO.output(24,GPIO.LOW)
             await asyncio.sleep(20)
         except KeyboardInterrupt as k:
-            GLOBAL_STATE = "TERMINATING"
+            GLOBAL_ASYNC_STATE.running = False
+        except Exception as e:
+            raise

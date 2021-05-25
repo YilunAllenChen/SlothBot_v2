@@ -17,23 +17,23 @@ f_handler.setFormatter(logging.Formatter("[%(asctime)s] [%(levelname)s] %(messag
 logger.addHandler(f_handler)
 
 
-GLOBAL_STATE = "RUNNING"
 async def main():
-    global GLOBAL_STATE
+    GLOBAL_ASYNC_STATE = type('', (), {})()
+    GLOBAL_ASYNC_STATE.running = True
+    
     logger.info("Starting tasks")
     try:
         tasks = [
-            asyncio.ensure_future(container("python3 led_blink.py", GLOBAL_STATE)),
-       #     asyncio.ensure_future(container("python3 serial_test.py", GLOBAL_STATE)),
-            asyncio.ensure_future(watcher(GLOBAL_STATE)),
-            asyncio.ensure_future(teensy_updater(GLOBAL_STATE))
+            asyncio.ensure_future(container("python3 led_blink.py", GLOBAL_ASYNC_STATE)),
+            asyncio.ensure_future(watcher(GLOBAL_ASYNC_STATE)),
+            asyncio.ensure_future(teensy_updater(GLOBAL_ASYNC_STATE))
         ]
 
         result = await asyncio.gather(*tasks, return_exceptions=True)
     except Exception as e:
         logger.error(e)
     except KeyboardInterrupt as k:
-        GLOBAL_STATE = "TERMINATING"
+        GLOBAL_ASYNC_STATE = "TERMINATING"
     result = await asyncio.gather(*tasks, return_exceptions=True)
     exit()
 

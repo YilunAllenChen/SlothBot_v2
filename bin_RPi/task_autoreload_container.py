@@ -40,11 +40,11 @@ wait = 1
 
 
 
-async def container(cmd, GLOBAL_STATE):
+async def container(cmd, GLOBAL_ASYNC_STATE):
     process = subprocess.Popen("sudo " + cmd, shell=True, preexec_fn=os.setsid)
     last_mtime = max(file_times(path))
     logger.info("Autoreload Container Started")
-    while GLOBAL_STATE != "TERMINATING":
+    while GLOBAL_ASYNC_STATE.running:
         try:
             max_mtime = max(file_times(path))
             print_stdout(process)
@@ -58,7 +58,9 @@ async def container(cmd, GLOBAL_STATE):
                 logger.debug("Nothing has changed")
             await asyncio.sleep(5)
         except KeyboardInterrupt as k:
-            GLOBAL_STATE = "TERMINATING"
+            GLOBAL_ASYNC_STATE.running = False
+        except Exception as e:
+            raise
     os.killpg(os.getpgid(process.pid), signal.SIGTERM)
     process.kill()
     logger.info("Container <", cmd, "> has ended")

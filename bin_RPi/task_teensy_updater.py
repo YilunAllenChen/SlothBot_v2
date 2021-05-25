@@ -10,7 +10,6 @@ def file_filter(name):
 def file_times(path):
     for root, dirs, files in os.walk(path):
         for file in filter(file_filter, files):
-            # print(os.stat(os.path.join(root, file)).st_mtime)
             yield os.stat(os.path.join(root, file)).st_mtime
 
 
@@ -26,10 +25,10 @@ path = "../bin_teensy"
 wait = 1
 
 
-async def teensy_updater(GLOBAL_STATE):
+async def teensy_updater(GLOBAL_ASYNC_STATE):
     last_mtime = max(file_times(path))
     print("Autoreload Container Started")
-    while GLOBAL_STATE != "TERMINATING":
+    while GLOBAL_ASYNC_STATE.running:
         try:
             max_mtime = max(file_times(path))
             if max_mtime > last_mtime:
@@ -38,4 +37,6 @@ async def teensy_updater(GLOBAL_STATE):
                 last_mtime = max_mtime
             await asyncio.sleep(5)
         except KeyboardInterrupt as k:
-            GLOBAL_STATE = "TERMINATING"
+            GLOBAL_ASYNC_STATE.running = False
+        except Exception as e:
+            raise
