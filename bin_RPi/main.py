@@ -3,9 +3,9 @@ sys.path.append("~/slothbot_v3/bin_RPi")
 
 
 import asyncio
-from task_autoreload_container import container
-from task_repo_watcher import watcher
-from task_teensy_updater import teensy_updater
+from container import container
+from sync_with_repo import watcher
+from write_teensy_firmware import teensy_updater
 
 import pathlib
 import logging
@@ -24,9 +24,12 @@ async def main():
     logger.info("Starting tasks")
     try:
         tasks = [
-            asyncio.ensure_future(container("python3 led_blink.py", GLOBAL_ASYNC_STATE)),
+            # Watcher is for updating the repo. Teensy Updater burns firmware to the Teensy MCU connected.
             asyncio.ensure_future(watcher(GLOBAL_ASYNC_STATE)),
-            asyncio.ensure_future(teensy_updater(GLOBAL_ASYNC_STATE))
+            asyncio.ensure_future(teensy_updater(GLOBAL_ASYNC_STATE)),
+
+            # If you want to add other modules that are monitored by the autoreloader, follow this pattern.
+            asyncio.ensure_future(container("python3 programs/led_blink.py", GLOBAL_ASYNC_STATE))
         ]
     except KeyboardInterrupt as k:
         GLOBAL_ASYNC_STATE.running = False

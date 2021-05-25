@@ -1,3 +1,6 @@
+# Genearl container utility. Put codes that you want to automatically sync with cloud in a container. (See main.py about usage)
+# Containers are reloaded as soon as updates are pulled from the repo.
+
 import os
 import sys
 import subprocess

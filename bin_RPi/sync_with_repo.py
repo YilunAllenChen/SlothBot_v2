@@ -1,3 +1,6 @@
+# Repo Watcher automatically pulls updates from the Repo. It'll cause all containers to reload.
+# Repo Watcher is only updated on reboot.
+
 import os
 import asyncio
 import RPi.GPIO as GPIO
