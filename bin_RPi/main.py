@@ -35,7 +35,7 @@ async def main():
     
     while(GLOBAL_ASYNC_STATE.running):
         try:
-            print("Running")
+            logger.info("Running")
             await asyncio.sleep(1)
         except KeyboardInterrupt as k:
             GLOBAL_ASYNC_STATE.running = False       

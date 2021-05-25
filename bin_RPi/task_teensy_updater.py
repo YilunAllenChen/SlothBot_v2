@@ -27,7 +27,7 @@ wait = 1
 
 async def teensy_updater(GLOBAL_ASYNC_STATE):
     last_mtime = max(file_times(path))
-    print("Autoreload Container Started")
+    print("Teensy Updater started")
     while GLOBAL_ASYNC_STATE.running:
         try:
             max_mtime = max(file_times(path))
