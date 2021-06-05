@@ -1,25 +1,19 @@
 import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardImg,
-  CardBody,
-  CardFooter,
-  Button
-} from "shards-react";
+import { Container } from "shards-react";
 
 export default function BasicCardExample() {
   return (
-    <Card style={{ maxWidth: "300px" }}>
-      <CardHeader>Card header</CardHeader>
-      <CardImg src="https://place-hold.it/300x200" />
-      <CardBody>
-        <CardTitle>Lorem Ipsum</CardTitle>
-        <p>Lorem ipsum dolor sit amet.</p>
-        <Button>Read more &rarr;</Button>
-      </CardBody>
-      <CardFooter>Card footer</CardFooter>
-    </Card>
+    <div style={{ height: "calc(100vh - 80px)" }}>
+      <iframe
+        width="100%"
+        height="100%"
+        src="https://www.youtube.com/embed/foiRTJnc-vA"
+        title="YouTube video player"
+        frameBorder="0"
+        autoplay="1"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe>
+    </div>
   );
 }

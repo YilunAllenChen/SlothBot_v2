@@ -12,6 +12,7 @@ import {
 } from "shards-react";
 
 import InstructionList from "../components/Controller/InstructionList";
+import SensorData from "../components/Controller/SensorData";
 import { useSelector } from "react-redux";
 
 import DB from "../apis/database";
@@ -24,6 +25,7 @@ export default function BasicCardExample() {
     <Container>
       <Row>
         <Col xs="12" md="6">
+          <h3 className="white">Command Center</h3>
           <Row>
             <Col xs="8" lg="9">
               <FormSelect>
@@ -39,7 +41,7 @@ export default function BasicCardExample() {
           </Row>
           <Row>
             <Card style={{ width: "100%", margin: "10px" }} className="black">
-              <CardHeader>Robot Controller</CardHeader>
+              <CardHeader>Robot Command Bank</CardHeader>
               <CardBody>
                 <p>
                   All instructions will be queued to the robot and executed at
@@ -47,14 +49,45 @@ export default function BasicCardExample() {
                 </p>
                 <Button
                   onClick={() => {
-                    DB.doc("AGENT_0xdca632abbe28").set({
-                      instructions: [
-                        "LED ON",
-                        "SLEEP 1",
-                        "LED OFF",
-                        "SLEEP 1"
-                      ]
-                    }, { merge: true });
+                    DB.doc("AGENT_0xdca632abbe28").set(
+                      {
+                        instructions: ["LED ON"],
+                      },
+                      { merge: true }
+                    );
+                  }}
+                >
+                  LED ON
+                </Button>{" "}
+                <Button
+                  onClick={() => {
+                    DB.doc("AGENT_0xdca632abbe28").set(
+                      {
+                        instructions: ["LED OFF"],
+                      },
+                      { merge: true }
+                    );
+                  }}
+                >
+                  LED OFF
+                </Button>{" "}
+                <Button
+                  onClick={() => {
+                    DB.doc("AGENT_0xdca632abbe28").set(
+                      {
+                        instructions: [
+                          "LED ON",
+                          "SLEEP 1",
+                          "LED OFF",
+                          "SLEEP 1",
+                          "LED ON",
+                          "SLEEP 1",
+                          "LED OFF",
+                          "SLEEP 1",
+                        ],
+                      },
+                      { merge: true }
+                    );
                   }}
                 >
                   Blink
@@ -65,6 +98,10 @@ export default function BasicCardExample() {
           </Row>
         </Col>
         <Col xs="12" md="6">
+          <h3 className="white">Sensor Data</h3>
+          <SensorData />
+          <hr />
+          <h3 className="white">Instruction Queue</h3>
           <InstructionList></InstructionList>
         </Col>
       </Row>

@@ -8,19 +8,15 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
   FormInput,
-  Collapse
+  Collapse,
 } from "shards-react";
-import "./navbar.css"
+import "./navbar.css";
 
-import { connect } from "react-redux"
+import { connect } from "react-redux";
 import { toPage } from "../../store/store";
 
 class CecropiaNavBar extends React.Component {
@@ -32,7 +28,7 @@ class CecropiaNavBar extends React.Component {
 
     this.state = {
       dropdownOpen: false,
-      collapseOpen: false
+      collapseOpen: false,
     };
   }
 
@@ -40,8 +36,8 @@ class CecropiaNavBar extends React.Component {
     this.setState({
       ...this.state,
       ...{
-        dropdownOpen: !this.state.dropdownOpen
-      }
+        dropdownOpen: !this.state.dropdownOpen,
+      },
     });
   }
 
@@ -49,47 +45,51 @@ class CecropiaNavBar extends React.Component {
     this.setState({
       ...this.state,
       ...{
-        collapseOpen: !this.state.collapseOpen
-      }
+        collapseOpen: !this.state.collapseOpen,
+      },
     });
   }
 
-  handleGoToPage(target){
+  handleGoToPage(target) {
     this.props.dispatch(toPage(target));
     console.log(target);
   }
 
   render() {
     return (
-      <Navbar type="dark" expand="md" style={{backgroundColor: "#223344"}}>
+      <Navbar type="dark" expand="md" style={{ backgroundColor: "#223344" }}>
         <NavbarBrand href="#">Cecropia</NavbarBrand>
         <NavbarToggler onClick={this.toggleNavbar} />
 
         <Collapse open={this.state.collapseOpen} navbar>
-          <Nav navbar >
+          <Nav navbar>
             <NavItem>
-              <NavLink onClick={()=>this.handleGoToPage("home")} href="#" active={true}>
+              <NavLink
+                onClick={() => this.handleGoToPage("home")}
+                href="#"
+                active={this.props.view==="home"}
+              >
                 Home
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink onClick={()=>this.handleGoToPage("controller")} href="#" >
-                Controller 
+              <NavLink
+                onClick={() => this.handleGoToPage("controller")}
+                href="#"
+                active={this.props.view==="controller"}
+              >
+                Controller
+              </NavLink>
+            </NavItem>{" "}
+            <NavItem>
+              <NavLink
+                onClick={() => this.handleGoToPage("team")}
+                href="#"
+                active={this.props.view==="team"}
+              >
+                Team
               </NavLink>
             </NavItem>
-            <Dropdown
-              open={this.state.dropdownOpen}
-              toggle={this.toggleDropdown}
-            >
-              <DropdownToggle nav caret>
-                Dropdown
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem>Action</DropdownItem>
-                <DropdownItem>Another action</DropdownItem>
-                <DropdownItem>Something else here</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
           </Nav>
 
           <Nav navbar className="ml-auto">
@@ -109,8 +109,7 @@ class CecropiaNavBar extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  view: state.view
-})
-
+  view: state.view,
+});
 
 export default connect(mapStateToProps)(CecropiaNavBar);

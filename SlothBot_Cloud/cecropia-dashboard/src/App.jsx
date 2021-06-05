@@ -6,6 +6,7 @@ import { connect } from "react-redux"
 
 import Home from "./pages/Home";
 import Controller from "./pages/Controller";
+import Team from "./pages/Team"
 
 class App extends React.Component {
 
@@ -18,6 +19,9 @@ class App extends React.Component {
         break;
       case "controller":
         main = <Controller />
+        break;
+      case "team":
+        main = <Team />
         break;
       default:
         main = <div>default</div>

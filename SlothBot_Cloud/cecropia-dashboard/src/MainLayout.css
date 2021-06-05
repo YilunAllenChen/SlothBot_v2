@@ -9,13 +9,17 @@
 
 .mainContent {
   padding-top: 80px;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #112233;
   color: white;
 }
 
 .black {
   color: black
+}
+
+.white {
+  color: white
 }
 
 body {    
