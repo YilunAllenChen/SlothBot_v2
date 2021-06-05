@@ -29,7 +29,8 @@ async def main():
             asyncio.ensure_future(teensy_updater(GLOBAL_ASYNC_STATE)),
 
             # If you want to add other modules that are monitored by the autoreloader, follow this pattern.
-            asyncio.ensure_future(container("python3 programs/led_blink.py", GLOBAL_ASYNC_STATE))
+            # asyncio.ensure_future(container("python3 programs/led_blink.py", GLOBAL_ASYNC_STATE)),
+            asyncio.ensure_future(container("python3 programs/cloud_comm.py", GLOBAL_ASYNC_STATE))
         ]
     except KeyboardInterrupt as k:
         GLOBAL_ASYNC_STATE.running = False
