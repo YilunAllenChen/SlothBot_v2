@@ -57,7 +57,7 @@ class CecropiaNavBar extends React.Component {
 
   render() {
     return (
-      <Navbar type="dark" expand="md" style={{ backgroundColor: "#223344" }}>
+      <Navbar type="dark" expand="md" sticky="top" style={{ backgroundColor: "#223344" }}>
         <NavbarBrand href="#">Cecropia</NavbarBrand>
         <NavbarToggler onClick={this.toggleNavbar} />
 
