@@ -59,6 +59,6 @@ while(True):
                 elif instruction == "LED OFF":
                     GPIO.output(23, GPIO.LOW)
         print(f"sent")
-        sleep(30)
+        sleep(10)
     except Exception as e:
         logger.error(str(e))
