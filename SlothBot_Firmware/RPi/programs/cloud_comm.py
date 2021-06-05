@@ -1,6 +1,6 @@
 # !python3 -m pip install --upgrade firebase-admin
 
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -18,9 +18,9 @@ f_handler.setFormatter(logging.Formatter("[%(asctime)s] [%(levelname)s] %(messag
 logger.addHandler(f_handler)
 
 
-# GPIO.setmode(GPIO.BCM)
-# GPIO.setwarnings(False)
-# GPIO.setup(23,GPIO.OUT)
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(23,GPIO.OUT)
 
 
 try:
@@ -38,8 +38,6 @@ while(True):
         doc_ref = db.collection(u'sensor_data').document(f"AGENT_{hex(uuid.getnode())}")
         timestamp = str(int(time() * 1000 + random()*10000-5000))
         instructions = doc_ref.get().to_dict().get("instructions")
-        if instructions and len(instructions) > 0:
-            print(instructions)
         doc_ref.set({
             "env_data": {
                 timestamp: {
@@ -52,7 +50,14 @@ while(True):
             },
             "instructions": []
         }, merge=True)
-        
+        if instructions and len(instructions) > 0:
+            for instruction in instructions:
+                if instruction == "LED ON":
+                    GPIO.output(23, GPIO.HIGH)
+                elif instruction == "SLEEP 10":
+                    sleep(10)
+                elif instruction == "LED OFF":
+                    GPIO.output(23, GPIO.LOW)
         print(f"sent")
         sleep(30)
     except Exception as e:
