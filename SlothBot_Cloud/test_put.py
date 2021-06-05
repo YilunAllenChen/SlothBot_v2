@@ -7,7 +7,7 @@ from random import choice, gauss, random
 from time import time
 
 # Use a service account
-cred = credentials.Certificate('agent_cred.json')
+cred = credentials.Certificate('agent_cred.json.secret')
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
