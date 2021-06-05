@@ -13,7 +13,7 @@ sudo apt-get install -y libusb-dev
 git clone https://github.com/PaulStoffregen/teensy_loader_cli
 cd teensy_loader_cli
 make
-cp teensy_loader_cli ../bin_RPi/teensy_loader_cli
+cp teensy_loader_cli ../bin/teensy_loader_cli
 cd ..
 rm -rf teensy_loader_cli/
 
@@ -21,8 +21,8 @@ rm -rf teensy_loader_cli/
 # Install arduino-cli
 curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
 
-
+mv bin/arduino-cli ./SlothBot_Firmware/RPi/
 
 
 # Setup main lifecycle script
-sudo cp config/rc.local /etc/rc.local
+sudo cp SlothBot_Firmware/config/rc.local /etc/rc.local

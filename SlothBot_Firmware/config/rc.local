@@ -17,6 +17,6 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
-cd /home/pi/SlothBot_v2/bin_RPi/ && mkdir -p logs && touch logs/rpi.log && sudo python3 main.py > logs/rpi.log &
+cd /home/pi/SlothBot_v2/SlothBot_Firmware/RPi/ && mkdir -p logs && touch logs/main.log && sudo python3 main.py > logs/main.log &
 
 exit 0
