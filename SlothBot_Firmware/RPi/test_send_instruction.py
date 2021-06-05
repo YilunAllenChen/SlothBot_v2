@@ -21,13 +21,14 @@ except Exception as e:
 
 while(True):
     try:
-        doc_ref = db.collection(u'sensor_data').document(f"AGENT_{hex(uuid.getnode())}")
+        doc_ref = db.collection(u'sensor_data').document("AGENT_0xdca632abbe28")
         timestamp = str(int(time() * 1000 + random()*10000-5000))
         instructions = doc_ref.get().to_dict().get("instructions")
         new_instructions = [
             "LED ON",
-            "SLEEP 10",
-            "LED OFF"
+            "SLEEP 1",
+            "LED OFF",
+            "SLEEP 1"
         ]
         doc_ref.set({
             "instructions": instructions + new_instructions

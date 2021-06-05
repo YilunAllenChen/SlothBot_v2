@@ -54,8 +54,8 @@ while(True):
             for instruction in instructions:
                 if instruction == "LED ON":
                     GPIO.output(23, GPIO.HIGH)
-                elif instruction == "SLEEP 10":
-                    sleep(10)
+                elif instruction == "SLEEP 1":
+                    sleep(1)
                 elif instruction == "LED OFF":
                     GPIO.output(23, GPIO.LOW)
         print(f"sent")
