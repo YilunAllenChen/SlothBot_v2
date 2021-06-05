@@ -45,8 +45,9 @@ while(True):
                     u'data': (gauss(10, 2)),
                 }
             },
-            "identity": {
-                "ip_addr": get('https://api.ipify.org').text
+            "state": {
+                "ip_addr": get('https://api.ipify.org').text,
+                "heartbeat": int(time() * 1000)
             },
             "instructions": []
         }, merge=True)
