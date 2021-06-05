@@ -45,6 +45,6 @@ while(True):
             }
         }, merge=True)
         print(f"sent")
-        sleep(5)
+        sleep(30)
     except Exception as e:
         logger.error(str(e))
