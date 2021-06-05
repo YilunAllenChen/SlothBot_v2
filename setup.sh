@@ -23,6 +23,8 @@ curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.
 
 mv bin/arduino-cli ./SlothBot_Firmware/RPi/
 
+rm -rf bin
+
 
 # Setup main lifecycle script
 sudo cp SlothBot_Firmware/config/rc.local /etc/rc.local
