@@ -1,5 +1,6 @@
 # !python3 -m pip install --upgrade firebase-admin
 
+# import RPi.GPIO as GPIO
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -17,13 +18,16 @@ f_handler.setFormatter(logging.Formatter("[%(asctime)s] [%(levelname)s] %(messag
 logger.addHandler(f_handler)
 
 
-# Use a service account
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setwarnings(False)
+# GPIO.setup(23,GPIO.OUT)
+
+
 try:
+# Use a service account
     cred = credentials.Certificate('agent_cred.json.secret')
     firebase_admin.initialize_app(cred)
-
     db = firestore.client()
-
     datatypes = [u'temperature_C', u'temperature_F',
                 u"battery_voltage", u"humidity"]
 except Exception as e:
@@ -33,6 +37,9 @@ while(True):
     try:
         doc_ref = db.collection(u'sensor_data').document(f"AGENT_{hex(uuid.getnode())}")
         timestamp = str(int(time() * 1000 + random()*10000-5000))
+        instructions = doc_ref.get().to_dict().get("instructions")
+        if instructions and len(instructions) > 0:
+            print(instructions)
         doc_ref.set({
             "env_data": {
                 timestamp: {
@@ -42,8 +49,10 @@ while(True):
             },
             "identity": {
                 "ip_addr": get('https://api.ipify.org').text
-            }
+            },
+            "instructions": []
         }, merge=True)
+        
         print(f"sent")
         sleep(30)
     except Exception as e:
