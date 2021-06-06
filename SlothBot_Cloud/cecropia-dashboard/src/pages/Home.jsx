@@ -1,5 +1,4 @@
 import React from "react";
-import { Container } from "shards-react";
 
 export default function BasicCardExample() {
   return (

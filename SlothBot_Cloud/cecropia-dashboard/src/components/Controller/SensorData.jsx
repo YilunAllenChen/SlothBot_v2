@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import DB from "../../apis/database";
 import { Line } from "react-chartjs-2";
-import { Col, Container, FormSelect, Row } from "shards-react";
+import { Container, FormSelect } from "shards-react";
 
 const options = {
   scales: {
@@ -85,8 +85,7 @@ class SensorData extends React.Component {
       return <div>Loading...</div>;
     } else {
       let selections = [];
-      let charts = [];
-      for (let [dataType, data] of Object.entries(this.state.agentData)) {
+      for (let dataType of Object.keys(this.state.agentData)) {
         selections.push(<option value={dataType}>{dataType}</option>);
       }
       return (
