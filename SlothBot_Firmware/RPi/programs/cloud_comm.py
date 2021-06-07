@@ -37,7 +37,12 @@ while(True):
     try:
         doc_ref = db.collection(u'sensor_data').document(f"AGENT_{hex(uuid.getnode())}")
         timestamp = str(int(time() * 1000 + random()*10000-5000))
-        instructions = doc_ref.get().to_dict().get("instructions")
+        
+        instructions = None
+        try:
+            instructions = doc_ref.get().to_dict().get("instructions")
+        except Exception as e:
+            logger.error("Can't fetch instructions:", str(e))
         doc_ref.set({
             "env_data": {
                 timestamp: {
@@ -51,6 +56,7 @@ while(True):
             },
             "instructions": []
         }, merge=True)
+
         if instructions and len(instructions) > 0:
             for instruction in instructions:
                 if instruction == "LED ON":
