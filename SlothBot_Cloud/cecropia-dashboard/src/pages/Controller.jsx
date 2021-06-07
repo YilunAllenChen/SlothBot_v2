@@ -1,26 +1,46 @@
-import React from "react";
-import {
-  Col,
-  Container,
-  Row,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Button,
-  FormSelect,
-} from "shards-react";
+import React, { useState } from "react";
+import { Col, Container, Row, Button, FormSelect } from "shards-react";
 
 import InstructionList from "../components/Controller/InstructionList";
 import SensorData from "../components/Controller/SensorData";
-import { useSelector } from "react-redux";
+import CommandBank from "../components/Controller/CommandBank";
+import { useDispatch } from "react-redux";
+import { selectActiveAgentAndUnreadyData } from "../store/store";
 
 import DB from "../apis/database";
 
-const activeAgentSelector = (state) => state.controller.activeAgent;
-
 export default function BasicCardExample() {
-  const activeAgent = useSelector(activeAgentSelector);
+  const dispatch = useDispatch();
+
+  const handleChangeOption = (e) => {
+    console.log(e.target.value);
+    dispatch(selectActiveAgentAndUnreadyData(e.target.value));
+  };
+
+  let [dataReady, setDataReady] = useState(false);
+  let [data, setData] = useState([]);
+
+  if (!dataReady) {
+    DB.get().then((data) => {
+      let all_agents = [];
+      data.docs.forEach((doc) => {
+        all_agents.push(doc.id);
+      });
+      setData(all_agents);
+      setDataReady(true);
+    });
+    return (
+      <Container>
+        <Row>Loading...</Row>
+      </Container>
+    );
+  }
+
+  let options = [<option value={null} disabled>Please Select</option>];
+  data.forEach((agent_id) => {
+    options.push(<option value={agent_id}>{agent_id}</option>);
+  });
+
   return (
     <Container>
       <Row>
@@ -28,73 +48,11 @@ export default function BasicCardExample() {
           <h3 className="white">Command Center</h3>
           <Row>
             <Col xs="8" lg="9">
-              <FormSelect>
-                <option value="first">{activeAgent}</option>
-                <option value="third" disabled>
-                  This feature is under development
-                </option>
-              </FormSelect>
-            </Col>
-            <Col xs="4" lg="3">
-              <Button style={{ width: "100%", height: "100%" }}>Connect</Button>
+              <FormSelect onChange={handleChangeOption}>{options}</FormSelect>
             </Col>
           </Row>
           <Row>
-            <Card style={{ width: "100%", margin: "10px" }} className="black">
-              <CardHeader>Robot Command Bank</CardHeader>
-              <CardBody>
-                <p>
-                  All instructions will be queued to the robot and executed at
-                  earliest convenience.
-                </p>
-                <Button
-                  onClick={() => {
-                    DB.doc("AGENT_0xdca632abbe28").set(
-                      {
-                        instructions: ["LED ON"],
-                      },
-                      { merge: true }
-                    );
-                  }}
-                >
-                  LED ON
-                </Button>{" "}
-                <Button
-                  onClick={() => {
-                    DB.doc("AGENT_0xdca632abbe28").set(
-                      {
-                        instructions: ["LED OFF"],
-                      },
-                      { merge: true }
-                    );
-                  }}
-                >
-                  LED OFF
-                </Button>{" "}
-                <Button
-                  onClick={() => {
-                    DB.doc("AGENT_0xdca632abbe28").set(
-                      {
-                        instructions: [
-                          "LED ON",
-                          "SLEEP 1",
-                          "LED OFF",
-                          "SLEEP 1",
-                          "LED ON",
-                          "SLEEP 1",
-                          "LED OFF",
-                          "SLEEP 1",
-                        ],
-                      },
-                      { merge: true }
-                    );
-                  }}
-                >
-                  Blink
-                </Button>
-              </CardBody>
-              <CardFooter>Card footer</CardFooter>
-            </Card>
+            <CommandBank />
           </Row>
         </Col>
         <Col xs="12" md="6">

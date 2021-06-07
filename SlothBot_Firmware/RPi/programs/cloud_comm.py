@@ -62,4 +62,4 @@ while(True):
         print(f"sent")
         sleep(10)
     except Exception as e:
-        logger.error(str(e) + str(doc_ref))
+        logger.error(str(e) + str(hex(uuid.getnode())))

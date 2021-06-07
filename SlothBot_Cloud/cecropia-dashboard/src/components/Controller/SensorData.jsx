@@ -4,6 +4,11 @@ import DB from "../../apis/database";
 import { Line } from "react-chartjs-2";
 import { Container, FormSelect } from "shards-react";
 
+import {
+  setVisualization,
+  setVisualizedSensorDataView,
+} from "../../store/store";
+
 const options = {
   scales: {
     yAxes: [
@@ -27,16 +32,19 @@ class SensorData extends React.Component {
     super(props);
 
     this.dataListener = () => {};
-    this.state = {
-      agentData: null,
-      agentDataReady: false,
-      selectedDataView: null,
-    };
   }
 
-  componentDidMount() {
-    this.dataListener = DB.doc("AGENT_0xdca632abbe28").onSnapshot(
-      (doc) => {
+  componentWillUnmount() {
+    this.dataListener(); // unhook the listener
+  }
+
+  render() {
+    if (!this.props.agentDataReady) {
+      if(!this.props.activeAgent) {
+        return <div>Please select an agent.</div>
+      }
+      this.dataListener(); // unhook the current listener
+      this.dataListener = DB.doc(this.props.activeAgent).onSnapshot((doc) => {
         let grouped = {};
         doc = doc.data().env_data;
         for (let ts in doc) {
@@ -59,47 +67,35 @@ class SensorData extends React.Component {
           );
           grouped[doc[ts]["type"]].datasets[0].data.push(doc[ts]["data"]);
         }
-        this.setState({
-          agentData: grouped,
-          agentDataReady: true,
-          selectedDataView: Object.keys(grouped)[0]
-        });
-      }
-
-      // {
-      //   console.log(docSnapshot.data());
-      //   this.setState({
-      //     agentData: docSnapshot.data(),
-      //     agentDataReady: true,
-      //   });
-      // }
-    );
-  }
-
-  componentWillUnmount() {
-    this.dataListener(); // unhook the listener
-  }
-
-  render() {
-    if (!this.state.agentDataReady) {
+        this.props.dispatch(
+          setVisualization({
+            agentDataChart: grouped,
+            agentDataReady: true,
+            selectedDataView: Object.keys(grouped)[0],
+          })
+        );
+      });
+    }
+    if (!this.props.agentDataReady) {
       return <div>Loading...</div>;
     } else {
       let selections = [];
-      for (let dataType of Object.keys(this.state.agentData)) {
+      for (let dataType of Object.keys(this.props.agentDataChart)) {
         selections.push(<option value={dataType}>{dataType}</option>);
       }
       return (
         <Container>
           <FormSelect
             onChange={(event) => {
-              this.setState({ selectedDataView: event.target.value });
-              console.log(event.target.value);
+              this.props.dispatch(
+                setVisualizedSensorDataView(event.target.value)
+              );
             }}
           >
             {selections}
           </FormSelect>
           <Line
-            data={this.state.agentData[this.state.selectedDataView]}
+            data={this.props.agentDataChart[this.props.selectedDataView]}
             options={options}
           />
         </Container>
@@ -110,6 +106,9 @@ class SensorData extends React.Component {
 
 const mapStateToProps = (state) => ({
   activeAgent: state.controller.activeAgent,
+  agentDataReady: state.controller.agentDataReady,
+  agentDataChart: state.controller.agentDataChart,
+  selectedDataView: state.controller.selectedDataView,
 });
 
 export default connect(mapStateToProps)(SensorData);
