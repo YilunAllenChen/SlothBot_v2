@@ -29,6 +29,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(23,GPIO.OUT)
 
+print("setup complete")
 
 try:
     connected = False
@@ -42,6 +43,8 @@ try:
         connected = True
 except Exception as e:
     logger.error(str(e))
+
+print("Conneted")
 
 while(True):
     try:

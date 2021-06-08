@@ -49,6 +49,21 @@ class CommandBank extends React.Component {
           >
             Blink
           </Button>
+          <Button
+            onClick={()=>{
+              this.fireInstructions(["READ SENSORS"])
+            }}>
+            Read Sensors
+          </Button>
+
+          <Button onClick={()=>{
+            this.fireInstructions(['GO'])
+          }}>GO 
+          </Button>
+
+          <Button onClick={()=>{
+            this.fireInstructions(['STOP'])
+          }}>STOP</Button>
         </CardBody>
         <CardFooter></CardFooter>
       </Card>
