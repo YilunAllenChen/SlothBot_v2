@@ -17,7 +17,7 @@ async def watcher(GLOBAL_ASYNC_STATE):
             os.system("python3 -m pip install -r requirements.txt")
             print("Repo updated.")
             GPIO.output(24,GPIO.LOW)
-            await asyncio.sleep(3)
+            await asyncio.sleep(30)
         except KeyboardInterrupt as k:
             GLOBAL_ASYNC_STATE.running = False
         except Exception as e:
