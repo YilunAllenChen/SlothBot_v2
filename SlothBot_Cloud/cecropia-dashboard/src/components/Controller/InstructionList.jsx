@@ -19,7 +19,7 @@ class RobotController extends React.Component {
 
   render() {
     if (!this.props.agentInstructionsReady) {
-      if(!this.props.activeAgent) {
+      if(!this.props.activeAgent  || this.props.activeAgent === "select") {
         return <div>Please select an agent.</div>
       }
       this.dataListener(); //unhook the listener

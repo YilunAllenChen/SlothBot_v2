@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardHeader, CardBody, CardFooter, Button } from "shards-react";
+import { Card, CardHeader, CardBody, CardFooter } from "shards-react";
 import { connect } from "react-redux";
 import DB from "../../apis/database";
 import "./InstructionList.css";
@@ -18,7 +18,7 @@ class CommandBank extends React.Component {
 
   render() {
     if (!this.props.agentStatusReady) {
-      if (!this.props.activeAgent) {
+      if (!this.props.activeAgent || this.props.activeAgent === "select") {
         return <div>Please select an agent.</div>;
       }
       this.dataListener(); //unhook the listener
