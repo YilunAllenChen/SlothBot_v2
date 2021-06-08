@@ -31,11 +31,15 @@ try:
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     GPIO.setup(23,GPIO.OUT)
+except:
+    logger.warning("GPIO not initialized")
+
+try:
     ser = serial.Serial('/dev/ttyS0', 115200)
     ser.flushInput()
     ser.flushOutput()
 except:
-    pass
+    logger.warning("Serial is not initialized")
 
 
 
