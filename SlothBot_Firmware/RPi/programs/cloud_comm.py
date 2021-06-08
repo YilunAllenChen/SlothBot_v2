@@ -113,6 +113,13 @@ while(True):
                                     }
                                 },
                             }, merge=True)
+                        else:
+                            send_data({"manual_reading": {
+                                timestamp: {
+                                    "type": "Failure",
+                                    "data": -1
+                                }
+                            }})
                     
                 elif instruction == "GO":
                     payload = {
