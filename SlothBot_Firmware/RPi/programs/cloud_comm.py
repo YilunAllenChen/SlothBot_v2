@@ -44,6 +44,7 @@ while(True):
         instructions = None
         try:
             instructions = doc_ref.get().to_dict().get("instructions")
+            doc_ref.set({"instructions": []}, merge=True)
         except Exception as e:
             logger.error("Can't fetch instructions:", str(e))
         doc_ref.set({
@@ -57,7 +58,6 @@ while(True):
                 "ip_addr": get('https://api.ipify.org').text,
                 "heartbeat": int(time() * 1000)
             },
-            "instructions": []
         }, merge=True)
 
         if instructions and len(instructions) > 0:
