@@ -14,7 +14,7 @@ async def watcher(GLOBAL_ASYNC_STATE):
         try:
             GPIO.output(24,GPIO.HIGH)
             os.system("git pull")
-            os.system("python3 -m pip install -r requirements.txt")
+            # os.system("python3 -m pip install -r requirements.txt")
             print("Repo updated.")
             GPIO.output(24,GPIO.LOW)
             await asyncio.sleep(30)
