@@ -14,6 +14,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const DBRef = firebase.firestore().collection("sensor_data");
+const DBRef = firebase.firestore().collection("slothbots");
 
 export default DBRef;

@@ -46,8 +46,9 @@ def send_data(data):
 
 def get_data():
     self_id = f"AGENT_{hex(uuid.getnode())}"
-    return post(f"{API_BASE}/get", json={"id": self_id})
-
+    resp = post(f"{API_BASE}/get", json={"id": self_id})
+    print(resp)
+    return resp.json()
 
 
 while(True):

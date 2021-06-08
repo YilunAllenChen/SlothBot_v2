@@ -10,7 +10,7 @@ app = Flask(__name__)
 cred = credentials.Certificate('key.json.secret')
 default_app = initialize_app(cred)
 db = firestore.client()
-db_ref = db.collection('env_data')
+db_ref = db.collection('slothbots')
 
 @app.route("/")
 def hi():
