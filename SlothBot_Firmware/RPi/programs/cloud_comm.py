@@ -24,12 +24,15 @@ GPIO.setup(23,GPIO.OUT)
 
 
 try:
-# Use a service account
-    cred = credentials.Certificate('agent_cred.json.secret')
-    firebase_admin.initialize_app(cred)
-    db = firestore.client()
-    datatypes = [u'temperature_C', u'temperature_F',
-                u"battery_voltage", u"humidity"]
+    connected = False
+    while(not connected):
+        # Use a service account
+        cred = credentials.Certificate('agent_cred.json.secret')
+        firebase_admin.initialize_app(cred)
+        db = firestore.client()
+        datatypes = [u'temperature_C', u'temperature_F',
+                    u"battery_voltage", u"humidity"]
+        connected = True
 except Exception as e:
     logger.error(str(e))
 
