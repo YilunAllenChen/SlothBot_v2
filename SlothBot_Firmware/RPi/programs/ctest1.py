@@ -1,9 +1,14 @@
 # !python3 -m pip install --upgrade firebase-admin
 
+print("program starting")
 import RPi.GPIO as GPIO
+
+print("GPIO imported")
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+
+print("Firebase imported")
 from random import choice, gauss, random
 from time import time, sleep
 from requests import get
