@@ -28,12 +28,12 @@ datatypes = [u'temperature_C', u'temperature_F',
 
 
 try:
-    ser = serial.Serial('/dev/ttyS0', 115200)
-    ser.flushInput()
-    ser.flushOutput()
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     GPIO.setup(23,GPIO.OUT)
+    ser = serial.Serial('/dev/ttyS0', 115200)
+    ser.flushInput()
+    ser.flushOutput()
 except:
     pass
 
