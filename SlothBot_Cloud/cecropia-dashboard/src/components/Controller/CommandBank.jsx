@@ -4,16 +4,13 @@ import { connect } from "react-redux";
 import DB from "../../apis/database";
 import "./InstructionList.css";
 
-
 const buttonStyles = {
-  margin: "5px"
-}
-
+  margin: "5px",
+};
 
 class CommandBank extends React.Component {
-
   fireInstructions(inst) {
-    if(!this.props.activeAgent  || this.props.activeAgent === "select") return;
+    if (!this.props.activeAgent || this.props.activeAgent === "select") return;
     DB.doc(this.props.activeAgent).set(
       {
         instructions: inst,
@@ -33,13 +30,20 @@ class CommandBank extends React.Component {
             All instructions will be queued to the robot and executed at
             earliest convenience.
           </p>
-          <Button style={buttonStyles} onClick={() => this.fireInstructions(["LED ON"])}>
+          <Button
+            style={buttonStyles}
+            onClick={() => this.fireInstructions(["LED ON"])}
+          >
             LED ON
           </Button>
-          <Button style={buttonStyles} onClick={() => this.fireInstructions(["LED OFF"])}>
+          <Button
+            style={buttonStyles}
+            onClick={() => this.fireInstructions(["LED OFF"])}
+          >
             LED OFF
           </Button>
-          <Button style={buttonStyles}
+          <Button
+            style={buttonStyles}
             onClick={() =>
               this.fireInstructions([
                 "LED ON",
@@ -55,19 +59,40 @@ class CommandBank extends React.Component {
           >
             Blink
           </Button>
-          <Button style={buttonStyles}
-            onClick={()=>{
-              this.fireInstructions(["READ SENSORS"])
-            }}>
+          <hr />
+          <Button
+            style={buttonStyles}
+            onClick={() => {
+              this.fireInstructions(["READ SENSORS"]);
+            }}
+          >
             Read Sensors
           </Button>
-          <Button style={buttonStyles} onClick={()=>{
-            this.fireInstructions(['GO'])
-          }}>GO 
+          <Button
+            style={buttonStyles}
+            onClick={() => {
+              this.fireInstructions(["GO"]);
+            }}
+          >
+            GO
           </Button>
-          <Button style={buttonStyles} onClick={()=>{
-            this.fireInstructions(['STOP'])
-          }}>STOP</Button>
+          <Button
+            style={buttonStyles}
+            onClick={() => {
+              this.fireInstructions(["STOP"]);
+            }}
+          >
+            STOP
+          </Button>
+          <Button
+            style={buttonStyles}
+            theme='info'
+            onClick={() => {
+              this.fireInstructions(["UPDATE"]);
+            }}
+          >
+            Update
+          </Button>
         </CardBody>
         <CardFooter></CardFooter>
       </Card>
