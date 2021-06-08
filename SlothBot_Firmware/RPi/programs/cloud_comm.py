@@ -10,12 +10,19 @@ from requests import get
 import uuid
 import pathlib
 import logging
+import serial
+import json
+
 pathlib.Path("./logs").mkdir(parents=True, exist_ok=True)
 logger = logging.getLogger("cloud")
 logger.setLevel("INFO")
 f_handler = logging.FileHandler("logs/cloud.log", "a+")
 f_handler.setFormatter(logging.Formatter("[%(asctime)s] [%(levelname)s] %(message)s"))
 logger.addHandler(f_handler)
+
+ser = serial.Serial('/dev/ttyS0', 115200)
+ser.flushInput()
+ser.flushOutput()
 
 
 GPIO.setmode(GPIO.BCM)
@@ -68,7 +75,47 @@ while(True):
                     sleep(1)
                 elif instruction == "LED OFF":
                     GPIO.output(23, GPIO.LOW)
-        print(f"sent")
+
+                elif instruction == "READ SENSORS":
+                        payload = {
+                            "component": "sensors",
+                            "cmd": "read_all"
+                        }
+                        payload_jsonstr = json.dumps(payload)
+                        ser.write(payload_jsonstr.encode())
+                        logger.info('sent')
+                        
+                        sleep(1)
+                        inbound_str = ser.read_all().decode()
+                        if len(inbound_str) > 0:
+                            result = str(json.loads(inbound_str))
+                            doc_ref.set({
+                                "manual_reading": {
+                                    timestamp: {
+                                        u'type': choice(datatypes),
+                                        u'data': result,
+                                    }
+                                },
+                            }, merge=True)
+                    
+                elif instruction == "GO":
+                    payload = {
+                        "component": "motors",
+                        "cmd": "set_speed",
+                        "params": [1]
+                    }
+                    payload_jsonstr = json.dumps(payload)
+                    ser.write(payload_jsonstr.encode())
+
+                if instruction == "STOP":
+                    payload = {
+                        "component": "motors",
+                        "cmd": "set_speed",
+                        "params": [0]
+                    }
+                    payload_jsonstr = json.dumps(payload)
+                    ser.write(payload_jsonstr.encode())
+                        
         sleep(10)
     except Exception as e:
         logger.error(str(e) + str(hex(uuid.getnode())))
