@@ -65,18 +65,23 @@ while(True):
             send_data({"instructions": []})
         except Exception as e:
             logger.error("Can't fetch instructions:", str(e))
-        send_data({
-            # "env_data": {
-            #     timestamp: {
-            #         u'type': choice(datatypes),
-            #         u'data': (gauss(10, 2)),
-            #     }
-            # },
-            "state": {
-                "ip_addr": get('https://api.ipify.org').text,
-                "heartbeat": int(time() * 1000)
-            },
-        })
+
+
+        try:
+            send_data({
+                # "env_data": {
+                #     timestamp: {
+                #         u'type': choice(datatypes),
+                #         u'data': (gauss(10, 2)),
+                #     }
+                # },
+                "state": {
+                    "ip_addr": get('https://api.ipify.org').text,
+                    "heartbeat": int(time() * 1000)
+                },
+            })
+        except Exception as e:
+            logger.error("Can't update data: ", str(e))
 
         if instructions and len(instructions) > 0:
             for instruction in instructions:
