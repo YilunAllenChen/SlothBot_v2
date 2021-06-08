@@ -1,17 +1,19 @@
 # !python3 -m pip install --upgrade firebase-admin
 
-import RPi.GPIO as GPIO
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
+try:
+    import RPi.GPIO as GPIO
+    import serial
+except:
+    print("Can't import RPI GPIO or serial.")
+    
 from random import choice, gauss, random
 from time import time, sleep
 from requests import get
 import uuid
 import pathlib
 import logging
-import serial
 import json
+from requests import post
 
 pathlib.Path("./logs").mkdir(parents=True, exist_ok=True)
 logger = logging.getLogger("cloud")
@@ -20,44 +22,45 @@ f_handler = logging.FileHandler("logs/cloud.log", "a+")
 f_handler.setFormatter(logging.Formatter("[%(asctime)s] [%(levelname)s] %(message)s"))
 logger.addHandler(f_handler)
 
-ser = serial.Serial('/dev/ttyS0', 115200)
-ser.flushInput()
-ser.flushOutput()
+API_BASE = "http://174.138.125.2:5050"
+datatypes = [u'temperature_C', u'temperature_F',
+            u"battery_voltage", u"humidity"]
 
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-GPIO.setup(23,GPIO.OUT)
-
-print("setup complete")
 
 try:
-    connected = False
-    while(not connected):
-        # Use a service account
-        cred = credentials.Certificate('agent_cred.json.secret')
-        firebase_admin.initialize_app(cred)
-        db = firestore.client()
-        datatypes = [u'temperature_C', u'temperature_F',
-                    u"battery_voltage", u"humidity"]
-        connected = True
-except Exception as e:
-    logger.error(str(e))
+    ser = serial.Serial('/dev/ttyS0', 115200)
+    ser.flushInput()
+    ser.flushOutput()
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    GPIO.setup(23,GPIO.OUT)
+except:
+    pass
 
-print("Conneted")
+
+
+def send_data(data):
+    self_id = f"AGENT_{hex(uuid.getnode())}"
+    data['id'] = self_id
+    post(f"{API_BASE}/set", json=data)
+
+def get_data():
+    self_id = f"AGENT_{hex(uuid.getnode())}"
+    return post(f"{API_BASE}/get", json={"id": self_id})
+
+
 
 while(True):
     try:
-        doc_ref = db.collection(u'sensor_data').document(f"AGENT_{hex(uuid.getnode())}")
         timestamp = str(int(time() * 1000 + random()*10000-5000))
         
         instructions = None
         try:
-            instructions = doc_ref.get().to_dict().get("instructions")
-            doc_ref.set({"instructions": []}, merge=True)
+            instructions = get_data().get("instructions")
+            send_data({"instructions": []})
         except Exception as e:
             logger.error("Can't fetch instructions:", str(e))
-        doc_ref.set({
+        send_data({
             "env_data": {
                 timestamp: {
                     u'type': choice(datatypes),
@@ -68,7 +71,7 @@ while(True):
                 "ip_addr": get('https://api.ipify.org').text,
                 "heartbeat": int(time() * 1000)
             },
-        }, merge=True)
+        })
 
         if instructions and len(instructions) > 0:
             for instruction in instructions:
@@ -92,7 +95,7 @@ while(True):
                         inbound_str = ser.read_all().decode()
                         if len(inbound_str) > 0:
                             result = str(json.loads(inbound_str))
-                            doc_ref.set({
+                            send_data({
                                 "manual_reading": {
                                     timestamp: {
                                         u'type': choice(datatypes),
