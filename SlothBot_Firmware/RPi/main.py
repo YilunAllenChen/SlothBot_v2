@@ -25,7 +25,7 @@ async def main():
     try:
         tasks = [
             # Watcher is for updating the repo. Teensy Updater burns firmware to the Teensy MCU connected.
-            asyncio.ensure_future(watcher(GLOBAL_ASYNC_STATE)),
+            # asyncio.ensure_future(watcher(GLOBAL_ASYNC_STATE)),
             asyncio.ensure_future(teensy_updater(GLOBAL_ASYNC_STATE)),
 
             # If you want to add other modules that are monitored by the autoreloader, follow this pattern.

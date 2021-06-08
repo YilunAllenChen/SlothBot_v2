@@ -14,6 +14,7 @@ import pathlib
 import logging
 import json
 from requests import post
+import os
 
 pathlib.Path("./logs").mkdir(parents=True, exist_ok=True)
 logger = logging.getLogger("cloud")
@@ -31,6 +32,7 @@ try:
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     GPIO.setup(23,GPIO.OUT)
+    GPIO.setup(24,GPIO.OUT)
 except:
     logger.warning("GPIO not initialized")
 
@@ -120,6 +122,13 @@ while(True):
                                     "data": -1
                                 }
                             }})
+                
+                elif instruction == "UPDATE":
+                    GPIO.output(24,GPIO.HIGH)
+                    os.system("git pull")
+                    # os.system("python3 -m pip install -r requirements.txt")
+                    print("Repo updated.")
+                    GPIO.output(24,GPIO.LOW)
                     
                 elif instruction == "GO":
                     payload = {
