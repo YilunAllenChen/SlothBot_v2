@@ -50,7 +50,7 @@ class CommandBank extends React.Component {
             Blink
           </Button>
         </CardBody>
-        <CardFooter>Card footer</CardFooter>
+        <CardFooter></CardFooter>
       </Card>
     );
   }

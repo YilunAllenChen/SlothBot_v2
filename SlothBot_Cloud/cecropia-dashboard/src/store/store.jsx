@@ -6,7 +6,9 @@ const rootReducer = createSlice({
     view: "home",
     controller: {
       activeAgent: null,
-      agentData: null,
+      agentStatus: null,
+      agentStatusReady: false,
+      agentDataChart: null,
       agentDataReady: false,
       selectedDataView: null,
       agnetInstructions: [],
@@ -40,6 +42,11 @@ const rootReducer = createSlice({
         action.payload.agentInstructionsReady;
     },
 
+    setAgentStatusData: (state, action) => {
+      state.controller.agentStatus = action.payload.agentStatus;
+      state.controller.agentStatusReady = action.payload.agentStatusReady;
+    }
+
   },
 });
 
@@ -49,6 +56,7 @@ export const {
   setVisualization,
   setVisualizedSensorDataView,
   setFetchedAgentInstruction,
+  setAgentStatusData
 } = rootReducer.actions;
 
 export const store = configureStore({
