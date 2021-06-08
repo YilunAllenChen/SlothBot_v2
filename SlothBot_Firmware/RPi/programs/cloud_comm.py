@@ -35,7 +35,7 @@ except:
     logger.warning("GPIO not initialized")
 
 try:
-    ser = serial.Serial('/dev/serial1', 115200)
+    ser = serial.Serial('/dev/ttyS0', 115200)
     ser.flushInput()
     ser.flushOutput()
 except:
