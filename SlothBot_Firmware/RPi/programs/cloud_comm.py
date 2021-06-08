@@ -123,7 +123,7 @@ while(True):
                     payload_jsonstr = json.dumps(payload)
                     ser.write(payload_jsonstr.encode())
 
-                if instruction == "STOP":
+                elif instruction == "STOP":
                     payload = {
                         "component": "motors",
                         "cmd": "set_speed",
