@@ -76,7 +76,7 @@ while(True):
                 #     }
                 # },
                 "state": {
-                    "ip_addr": get('https://api.ipify.org').text,
+                    # "ip_addr": get('https://api.ipify.org').text,
                     "heartbeat": int(time() * 1000)
                 },
             })
