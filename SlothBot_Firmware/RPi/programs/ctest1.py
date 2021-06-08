@@ -13,6 +13,8 @@ import logging
 import serial
 import json
 
+print("import complete")
+
 pathlib.Path("./logs").mkdir(parents=True, exist_ok=True)
 logger = logging.getLogger("cloud")
 logger.setLevel("INFO")
@@ -20,10 +22,13 @@ f_handler = logging.FileHandler("logs/cloud.log", "a+")
 f_handler.setFormatter(logging.Formatter("[%(asctime)s] [%(levelname)s] %(message)s"))
 logger.addHandler(f_handler)
 
+print("logger added")
+
 ser = serial.Serial('/dev/ttyS0', 115200)
 ser.flushInput()
 ser.flushOutput()
 
+print("serial started")
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
