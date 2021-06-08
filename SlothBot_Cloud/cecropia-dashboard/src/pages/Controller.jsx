@@ -50,7 +50,7 @@ export default function BasicCardExample() {
     );
   }
 
-  let options = [<option value={null}>Please Select</option>];
+  let options = [<option value={"select"}>Please Select</option>];
   data.forEach((agent_id) => {
     options.push(<option value={agent_id}>{agent_id}</option>);
   });

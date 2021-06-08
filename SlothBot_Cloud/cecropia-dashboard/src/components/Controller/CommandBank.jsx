@@ -13,6 +13,7 @@ const buttonStyles = {
 class CommandBank extends React.Component {
 
   fireInstructions(inst) {
+    if(!this.props.activeAgent  || this.props.activeAgent === "select") return;
     DB.doc(this.props.activeAgent).set(
       {
         instructions: inst,

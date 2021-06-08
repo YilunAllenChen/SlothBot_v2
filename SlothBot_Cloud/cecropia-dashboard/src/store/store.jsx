@@ -24,6 +24,7 @@ const rootReducer = createSlice({
       state.controller.activeAgent = action.payload;
       state.controller.agentDataReady = false;
       state.controller.agentInstructionsReady = false;
+      state.controller.agentStatusReady = false;
     },
 
     setVisualization: (state, action) => {
