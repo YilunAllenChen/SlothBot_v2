@@ -1,0 +1,28 @@
+.topbar {
+  z-index: 10000;
+  position: fixed;
+  max-width: 100%;
+  width: 100%;
+}
+
+.mainContent {
+  padding-top: 80px;
+  min-width: 100%;
+  min-height: 100vh;
+  background-color: #112233;
+  color: white;
+  z-index: 10;
+}
+
+.black {
+  color: black
+}
+
+.white {
+  color: white
+}
+
+body {    
+    margin: 0 !important;
+    padding: 0 !important;
+}
