@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slothbot-server-deployment
+  labels:
+    app: slothbot-server 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: slothbot-server
+  template:
+    metadata:
+      labels:
+        app: slothbot-server
+    spec:
+      containers:
+      - name: slothbot-server
+        image: allenchen0223/slothbot-server:v0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000

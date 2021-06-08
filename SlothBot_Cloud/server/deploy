@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Example Usage: ./deploy v1.0
+
+NAME_IMAGE="allenchen0223/slothbot-server"
+
+# Build docker image
+sudo docker build -t $NAME_IMAGE:$1 .
+
+sudo docker push $NAME_IMAGE:$1
