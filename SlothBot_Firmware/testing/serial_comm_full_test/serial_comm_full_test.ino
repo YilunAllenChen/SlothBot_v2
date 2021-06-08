@@ -91,6 +91,7 @@ void loop() {
 
   if (Serial1.available() > 0) {
     String line = Serial1.readString();
+    Serial.print("Received: ");
     Serial.println(line);
     DeserializationError error = deserializeJson(inbound, line);
     if (error) {

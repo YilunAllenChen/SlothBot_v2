@@ -35,7 +35,7 @@ except:
     logger.warning("GPIO not initialized")
 
 try:
-    ser = serial.Serial('/dev/ttyS0', 115200)
+    ser = serial.Serial('/dev/serial1', 115200)
     ser.flushInput()
     ser.flushOutput()
 except:
@@ -66,12 +66,12 @@ while(True):
         except Exception as e:
             logger.error("Can't fetch instructions:", str(e))
         send_data({
-            "env_data": {
-                timestamp: {
-                    u'type': choice(datatypes),
-                    u'data': (gauss(10, 2)),
-                }
-            },
+            # "env_data": {
+            #     timestamp: {
+            #         u'type': choice(datatypes),
+            #         u'data': (gauss(10, 2)),
+            #     }
+            # },
             "state": {
                 "ip_addr": get('https://api.ipify.org').text,
                 "heartbeat": int(time() * 1000)
@@ -127,6 +127,6 @@ while(True):
                     payload_jsonstr = json.dumps(payload)
                     ser.write(payload_jsonstr.encode())
                         
-        sleep(10)
+        sleep(3)
     except Exception as e:
         logger.error(str(e) + str(hex(uuid.getnode())))
