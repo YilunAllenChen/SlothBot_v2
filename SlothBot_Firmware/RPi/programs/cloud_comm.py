@@ -70,12 +70,12 @@ while(True):
 
         try:
             send_data({
-                "env_data": {
-                    timestamp: {
-                        u'type': choice(datatypes),
-                        u'data': (gauss(10, 2)),
-                    }
-                },
+                # "env_data": {
+                #     timestamp: {
+                #         u'type': choice(datatypes),
+                #         u'data': (gauss(10, 2)),
+                #     }
+                # },
                 "state": {
                     "heartbeat": int(timestamp)
                 },
