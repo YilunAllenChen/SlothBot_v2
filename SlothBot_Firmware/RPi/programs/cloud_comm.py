@@ -78,7 +78,7 @@ while(True):
                     }
                 },
                 "state": {
-                    "heartbeat": timestamp
+                    "heartbeat": int(timestamp)
                 },
             })
         except Exception as e:
