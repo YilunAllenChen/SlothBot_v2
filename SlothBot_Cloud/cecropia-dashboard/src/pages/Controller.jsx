@@ -5,13 +5,16 @@ import InstructionList from "../components/Controller/InstructionList";
 import SensorData from "../components/Controller/SensorData";
 import CommandBank from "../components/Controller/CommandBank";
 import StatusData from "../components/Controller/StatusData";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectActiveAgentAndUnreadyData } from "../store/store";
 
 import DB from "../apis/database";
 
+const activeAgentSelector = (state) => state.controller.activeAgent
+
 export default function BasicCardExample() {
   const dispatch = useDispatch();
+  let activeAgent = useSelector(activeAgentSelector);
 
   const handleChangeOption = (e) => {
     console.log(e.target.value);
@@ -52,7 +55,7 @@ export default function BasicCardExample() {
 
   let options = [<option value={"select"}>Please Select</option>];
   data.forEach((agent_id) => {
-    options.push(<option value={agent_id}>{agent_id}</option>);
+    options.push(<option value={agent_id} selected={activeAgent===agent_id}>{agent_id}</option>);
   });
 
   return (
