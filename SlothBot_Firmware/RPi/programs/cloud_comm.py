@@ -64,7 +64,6 @@ while(True):
         instructions = None
         try:
             instructions = get_data().get("instructions")
-            send_data({"instructions": []})
         except Exception as e:
             logger.error("Can't fetch instructions:", str(e))
 
@@ -85,6 +84,8 @@ while(True):
         except Exception as e:
             logger.error("Can't update data: ", str(e))
 
+        
+        send_data({"instructions": []})
         if instructions and len(instructions) > 0:
             for instruction in instructions:
                 if instruction == "LED ON":
