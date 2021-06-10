@@ -74,6 +74,15 @@ class CecropiaNavBar extends React.Component {
             </NavItem>
             <NavItem>
               <NavLink
+                onClick={() => this.handleGoToPage("dashboard")}
+                href="#"
+                active={this.props.view==="dashboard"}
+              >
+                Dashboard
+              </NavLink>
+            </NavItem>{" "}
+            <NavItem>
+              <NavLink
                 onClick={() => this.handleGoToPage("controller")}
                 href="#"
                 active={this.props.view==="controller"}
@@ -89,7 +98,7 @@ class CecropiaNavBar extends React.Component {
               >
                 Team
               </NavLink>
-            </NavItem>
+            </NavItem> {" "}           
           </Nav>
 
           <Nav navbar className="ml-auto">

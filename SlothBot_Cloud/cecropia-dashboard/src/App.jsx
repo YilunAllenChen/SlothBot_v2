@@ -7,6 +7,7 @@ import { connect } from "react-redux"
 import Home from "./pages/Home";
 import Controller from "./pages/Controller";
 import Team from "./pages/Team"
+import Dash from "./pages/Dashboard"
 
 class App extends React.Component {
 
@@ -22,6 +23,9 @@ class App extends React.Component {
         break;
       case "team":
         main = <Team />
+        break;
+      case "dashboard":
+        main = <Dash />
         break;
       default:
         main = <div>default</div>
