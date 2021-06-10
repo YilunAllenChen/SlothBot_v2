@@ -71,19 +71,29 @@ while(True):
 
         try:
             send_data({
-                # "env_data": {
-                #     timestamp: {
-                #         u'type': choice(datatypes),
-                #         u'data': (gauss(10, 2)),
-                #     }
-                # },
+                "env_data": {
+                    timestamp: {
+                        u'type': choice(datatypes),
+                        u'data': (gauss(10, 2)),
+                    }
+                },
                 "state": {
-                    # "ip_addr": get('https://api.ipify.org').text,
-                    "heartbeat": int(time() * 1000)
+                    "heartbeat": timestamp
                 },
             })
         except Exception as e:
-            logger.error("Can't update data: ", str(e))
+            logger.error("Can't update environment data: ", str(e))
+
+
+        try:
+            send_data({
+                "state": {
+                    "ip_addr": get('https://api.ipify.org', timeout=5).text
+                }
+            }) 
+        except Exception as e:
+            logger.error("Can't update IP address: ", str(e))
+
 
         if instructions and len(instructions) > 0:
             for instruction in instructions:
