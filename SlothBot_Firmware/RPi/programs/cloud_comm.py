@@ -61,6 +61,9 @@ while(True):
     try:
         timestamp = str(int(time() * 1000 + random()*10000-5000))
         
+
+        outbound_payload = {}
+
         instructions = None
         try:
             instructions = get_data().get("instructions")
@@ -69,7 +72,7 @@ while(True):
 
 
         try:
-            send_data({
+            outbound_payload.update({
                 # "env_data": {
                 #     timestamp: {
                 #         u'type': choice(datatypes),
@@ -85,7 +88,7 @@ while(True):
 
 
         try:
-            send_data({
+            outbound_payload.update({
                 "state": {
                     "ip_addr": get('https://api.ipify.org', timeout=5).text
                 }
@@ -95,70 +98,75 @@ while(True):
 
 
         
-        send_data({"instructions": []})
+        outbound_payload.update({"instructions": []})
         if instructions and len(instructions) > 0:
             for instruction in instructions:
-                if instruction == "LED ON":
-                    GPIO.output(23, GPIO.HIGH)
-                elif instruction == "SLEEP 1":
-                    sleep(1)
-                elif instruction == "LED OFF":
-                    GPIO.output(23, GPIO.LOW)
-
-                elif instruction == "READ SENSORS":
+                try:
+                    if instruction == "LED ON":
+                        GPIO.output(23, GPIO.HIGH)
+                    elif instruction == "SLEEP 1":
+                        sleep(1)
+                    elif instruction == "LED OFF":
+                        GPIO.output(23, GPIO.LOW)
+                    elif instruction == "READ SENSORS":
+                            payload = {
+                                "component": "sensors",
+                                "cmd": "read_all"
+                            }
+                            payload_jsonstr = json.dumps(payload)
+                            ser.write(payload_jsonstr.encode())
+                            logger.info('sent')
+                            
+                            sleep(1)
+                            inbound_str = ser.read_all().decode()
+                            if len(inbound_str) > 0:
+                                result = str(json.loads(inbound_str))
+                                outbound_payload.update({
+                                    "manual_reading": {
+                                        timestamp: {
+                                            u'type': choice(datatypes),
+                                            u'data': result,
+                                        }
+                                    },
+                                })
+                            else:
+                                outbound_payload.update({"manual_reading": {
+                                    timestamp: {
+                                        "type": "Failure",
+                                        "data": -1
+                                    }
+                                }})
+                    
+                    elif instruction == "UPDATE":
+                        GPIO.output(24,GPIO.HIGH)
+                        os.system("git pull")
+                        # os.system("python3 -m pip install -r requirements.txt")
+                        print("Repo updated.")
+                        GPIO.output(24,GPIO.LOW)
+                        
+                    elif instruction == "GO":
                         payload = {
-                            "component": "sensors",
-                            "cmd": "read_all"
+                            "component": "motors",
+                            "cmd": "set_speed",
+                            "params": [1]
                         }
                         payload_jsonstr = json.dumps(payload)
                         ser.write(payload_jsonstr.encode())
-                        logger.info('sent')
-                        
-                        sleep(1)
-                        inbound_str = ser.read_all().decode()
-                        if len(inbound_str) > 0:
-                            result = str(json.loads(inbound_str))
-                            send_data({
-                                "manual_reading": {
-                                    timestamp: {
-                                        u'type': choice(datatypes),
-                                        u'data': result,
-                                    }
-                                },
-                            }, merge=True)
-                        else:
-                            send_data({"manual_reading": {
-                                timestamp: {
-                                    "type": "Failure",
-                                    "data": -1
-                                }
-                            }})
-                
-                elif instruction == "UPDATE":
-                    GPIO.output(24,GPIO.HIGH)
-                    os.system("git pull")
-                    # os.system("python3 -m pip install -r requirements.txt")
-                    print("Repo updated.")
-                    GPIO.output(24,GPIO.LOW)
-                    
-                elif instruction == "GO":
-                    payload = {
-                        "component": "motors",
-                        "cmd": "set_speed",
-                        "params": [1]
-                    }
-                    payload_jsonstr = json.dumps(payload)
-                    ser.write(payload_jsonstr.encode())
 
-                elif instruction == "STOP":
-                    payload = {
-                        "component": "motors",
-                        "cmd": "set_speed",
-                        "params": [0]
-                    }
-                    payload_jsonstr = json.dumps(payload)
-                    ser.write(payload_jsonstr.encode())
-                        
+                    elif instruction == "STOP":
+                        payload = {
+                            "component": "motors",
+                            "cmd": "set_speed",
+                            "params": [0]
+                        }
+                        payload_jsonstr = json.dumps(payload)
+                        ser.write(payload_jsonstr.encode())
+                except Exception as e:
+                    logger.log("Can't execute instruction: " + instruction + " | " + str(e))
+
+
+        send_data(outbound_payload)                
         sleep(3)
+
     except Exception as e:
         logger.error(str(e) + str(hex(uuid.getnode())))
