@@ -74,7 +74,7 @@ while(True):
             outbound_payload.update({
                 "env_data": {
                     timestamp: {
-                        u'type': "CPU Usage",
+                        u'type': "RAM Usage",
                         u'data': psutil.cpu_percent(),
                     }
                 },
