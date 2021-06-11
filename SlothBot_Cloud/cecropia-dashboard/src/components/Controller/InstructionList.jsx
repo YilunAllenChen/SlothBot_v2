@@ -25,6 +25,7 @@ class RobotController extends React.Component {
       this.dataListener(); //unhook the listener
       this.dataListener = DB.doc(this.props.activeAgent).onSnapshot(
         (docSnapshot) => {
+          console.log('refreshing')
           this.props.dispatch(
             setFetchedAgentInstruction({
               agentInstructions: docSnapshot.data().instructions,
