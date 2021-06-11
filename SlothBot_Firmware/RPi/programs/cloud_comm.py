@@ -14,6 +14,7 @@ import pathlib
 import logging
 import json
 import os
+import psutil
 
 pathlib.Path("./logs").mkdir(parents=True, exist_ok=True)
 logger = logging.getLogger("cloud")
@@ -71,18 +72,18 @@ while(True):
 
         try:
             outbound_payload.update({
-                # "env_data": {
-                #     timestamp: {
-                #         u'type': choice(datatypes),
-                #         u'data': (gauss(10, 2)),
-                #     }
-                # },
+                "env_data": {
+                    timestamp: {
+                        u'type': "CPU Usage",
+                        u'data': psutil.cpu_percent(),
+                    }
+                },
                 "state": {
                     "heartbeat": int(timestamp)
                 },
             })
         except Exception as e:
-            logger.error("Can't update environment data: ", str(e))
+            logger.error("Can't update data: ", str(e))
 
 
         try:

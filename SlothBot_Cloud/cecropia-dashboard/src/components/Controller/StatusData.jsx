@@ -43,7 +43,8 @@ class CommandBank extends React.Component {
         <CardHeader>Robot Status</CardHeader>
         <CardBody>
           <p>Last Heartbeat: {lastHeartBeatTime.toLocaleString()}</p>
-          <p>IP Address: {this.props.agentStatus.ip_addr}</p>
+          <p>IP Address: {this.props.agentStatus.ip_info.IPv4}</p>
+          <p>Location: {this.props.agentStatus.ip_info.city}, {this.props.agentStatus.ip_info.state}, {this.props.agentStatus.ip_info.country_code} </p>
         </CardBody>
         <CardFooter></CardFooter>
       </Card>

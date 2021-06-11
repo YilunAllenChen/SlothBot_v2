@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Col,
   Container,
@@ -13,10 +13,6 @@ import DB from "../apis/database";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toPage, selectActiveAgentAndUnreadyData } from "../store/store";
-
-const cardStyle = {
-  margin: "10px",
-};
 
 export default function BasicCardExample() {
   const dispatch = useDispatch();
