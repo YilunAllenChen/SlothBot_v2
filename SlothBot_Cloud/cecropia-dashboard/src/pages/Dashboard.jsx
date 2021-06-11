@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Col,
   Container,
@@ -41,6 +41,18 @@ export default function BasicCardExample() {
       setDataReady(true);
     });
   };
+
+
+  // autorefresh
+  // useEffect(()=>{
+  //   const intervalHook = setInterval(handleRefreshListOfAgents, 3000);
+  //   return function cleanup(){
+  //     clearInterval(intervalHook);
+  //   }
+  // })
+
+
+
 
   if (!dataReady) {
     DB.get().then((data) => {

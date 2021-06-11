@@ -158,6 +158,6 @@ while(True):
                     payload_jsonstr = json.dumps(payload)
                     ser.write(payload_jsonstr.encode())
                         
-        sleep(3)
+        sleep(10)
     except Exception as e:
         logger.error(str(e) + str(hex(uuid.getnode())))
