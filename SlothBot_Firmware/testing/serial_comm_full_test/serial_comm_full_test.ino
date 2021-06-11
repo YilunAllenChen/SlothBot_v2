@@ -63,8 +63,8 @@ void setup() {
   Serial.println("Initiating components...");
   Serial.begin(9600);
   Serial1.begin(115200);
-  while (!Serial) continue;
-  while (!Serial1) continue;
+//  while (!Serial) continue;
+//  while (!Serial1) continue;
   motors_setup();
   ina219_setup();
   rpi_setup();
