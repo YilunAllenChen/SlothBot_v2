@@ -88,7 +88,9 @@ while(True):
         try:
             outbound_payload.update({
                 "state": {
-                    "ip_addr": get('https://api.ipify.org', timeout=5).text
+                    "heartbeat": int(timestamp),
+                    "ip_info": json.loads(get('https://geolocation-db.com/json/').text),
+                    # "ip_addr": get('https://api.ipify.org', timeout=5).text
                 }
             }) 
         except Exception as e:
