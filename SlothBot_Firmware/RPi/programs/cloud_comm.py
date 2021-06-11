@@ -8,12 +8,11 @@ except:
     
 from random import choice, gauss, random
 from time import time, sleep
-from requests import get
+from requests import get, post
 import uuid
 import pathlib
 import logging
 import json
-from requests import post
 import os
 
 pathlib.Path("./logs").mkdir(parents=True, exist_ok=True)
@@ -48,7 +47,7 @@ except:
 def send_data(data):
     self_id = f"AGENT_{hex(uuid.getnode())}"
     data['id'] = self_id
-    post(f"{API_BASE}/set", json=data)
+    post(f"{API_BASE}/set", json=data, timeout=3)
 
 def get_data():
     self_id = f"AGENT_{hex(uuid.getnode())}"
@@ -63,7 +62,6 @@ while(True):
         
 
         outbound_payload = {}
-
         instructions = None
         try:
             instructions = get_data().get("instructions")
