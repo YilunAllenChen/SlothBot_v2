@@ -8,6 +8,7 @@ import {
   setVisualization,
   setVisualizedSensorDataView,
 } from "../../store/store";
+import _ from "lodash";
 
 const options = {
   scales: {
@@ -47,6 +48,11 @@ class SensorData extends React.Component {
       this.dataListener = DB.doc(this.props.activeAgent).onSnapshot((doc) => {
         let grouped = {};
         doc = doc.data().env_data;
+
+        var newGrouped = _.mapValues(_.groupBy(doc, 'type'),
+                          clist => clist.map(dp => _.omit(dp, 'type')));
+        console.log(newGrouped)
+
         for (let ts in doc) {
           if (!(doc[ts]["type"] in grouped))
             grouped[doc[ts]["type"]] = {
@@ -63,7 +69,7 @@ class SensorData extends React.Component {
             };
 
           grouped[doc[ts]["type"]].labels.push(
-            new Date(parseInt(ts)).toLocaleDateString()
+            new Date(parseInt(ts)).toLocaleTimeString()
           );
           grouped[doc[ts]["type"]].datasets[0].data.push(doc[ts]["data"]);
         }

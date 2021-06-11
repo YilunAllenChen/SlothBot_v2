@@ -26,7 +26,6 @@ export default function BasicCardExample() {
   }
 
   const handleRefreshListOfAgents = () => {
-    console.log("refreshing");
     setDataReady(false);
     DB.get().then((data) => {
       let all_agents = [];

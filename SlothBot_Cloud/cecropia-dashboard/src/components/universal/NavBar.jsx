@@ -52,7 +52,6 @@ class CecropiaNavBar extends React.Component {
 
   handleGoToPage(target) {
     this.props.dispatch(toPage(target));
-    console.log(target);
   }
 
   render() {

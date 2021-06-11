@@ -17,12 +17,10 @@ export default function BasicCardExample() {
   let activeAgent = useSelector(activeAgentSelector);
 
   const handleChangeOption = (e) => {
-    console.log(e.target.value);
     dispatch(selectActiveAgentAndUnreadyData(e.target.value));
   };
 
   const handleRefreshListOfAgents = () => {
-    console.log("refreshing")
     setDataReady(false);
     DB.get().then((data) => {
       let all_agents = [];
