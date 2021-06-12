@@ -99,8 +99,8 @@ while(True):
 
 
         
-        outbound_payload.update({"instructions": []})
         if instructions and len(instructions) > 0:
+            outbound_payload.update({"instructions": []})
             for instruction in instructions:
                 try:
                     if instruction == "LED ON":
