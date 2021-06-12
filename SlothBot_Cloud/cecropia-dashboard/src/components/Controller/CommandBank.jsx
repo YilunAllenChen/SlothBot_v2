@@ -3,6 +3,7 @@ import { Card, CardHeader, CardBody, CardFooter, Button } from "shards-react";
 import { connect } from "react-redux";
 import DB from "../../apis/database";
 import "./InstructionList.css";
+// import {  } from "";
 
 const buttonStyles = {
   margin: "5px",
@@ -19,6 +20,7 @@ class CommandBank extends React.Component {
         merge: true,
       }
     );
+
   }
 
   render() {

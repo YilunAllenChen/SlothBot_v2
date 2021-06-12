@@ -21,8 +21,8 @@ export default function BasicCardExample() {
   let [data, setData] = useState([]);
 
   function handleConnect(agent_id) {
-    dispatch(selectActiveAgentAndUnreadyData(agent_id));
     dispatch(toPage("controller"));
+    dispatch(selectActiveAgentAndUnreadyData(agent_id));
   }
 
   const handleRefreshListOfAgents = () => {
@@ -86,7 +86,6 @@ export default function BasicCardExample() {
         <Button
           outline
           theme="dark"
-          onClick={() => handleConnect(agent.id)}
           disabled
         >
           Control

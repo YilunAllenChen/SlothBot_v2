@@ -57,9 +57,9 @@ class SensorData extends React.Component {
         for (let [dname, bucket] of Object.entries(buckets)) {
 
           // downsample as needed
-          if(bucket.length > 100){
+          while(bucket.length > 100){
             bucket = bucket.filter(function(_value, index, _Arr) {
-                return index % 3 === 0;
+                return index % 2 === 0;
             });
           }
 

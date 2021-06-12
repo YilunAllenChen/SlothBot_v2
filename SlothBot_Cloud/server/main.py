@@ -1,7 +1,7 @@
 # Required Imports
 import os
 from flask import Flask, request, jsonify
-from firebase_admin import credentials, firestore, initialize_app
+from firebase_admin import credentials, firestore, initialize_app, storage
 
 # Initialize Flask App
 app = Flask(__name__)
@@ -11,6 +11,10 @@ cred = credentials.Certificate('key.json.secret')
 default_app = initialize_app(cred)
 db = firestore.client()
 db_ref = db.collection('slothbots')
+
+
+bucket = storage.bucket()
+
 
 @app.route("/")
 def hi():
@@ -36,18 +40,19 @@ def create():
 def read():
     """
         read() : Fetches documents from Firestore collection as JSON
-        todo : Return document that matches query ID
-        all_todos : Return all documents
+        doc : Return document that matches query ID
+        all_docs : Return all documents
     """
     try:
         # Check if ID was passed to URL query
-        todo_id = request.json.get('id')    
-        if todo_id:
-            todo = db_ref.document(todo_id).get()
-            return jsonify(todo.to_dict()), 200
+        doc_id = request.json.get('id')    
+        if doc_id:
+            doc = db_ref.document(doc_id).get() 
+
+            return jsonify(doc.to_dict()), 200
         else:
-            all_todos = [doc.to_dict() for doc in db_ref.stream()]
-            return jsonify(all_todos), 200
+            all_docs = [doc.to_dict() for doc in db_ref.stream()]
+            return jsonify(all_docs), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
@@ -74,8 +79,8 @@ def delete():
     """
     try:
         # Check for ID in URL query
-        todo_id = request.args.get('id')
-        db_ref.document(todo_id).delete()
+        doc_id = request.args.get('id')
+        db_ref.document(doc_id).delete()
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
